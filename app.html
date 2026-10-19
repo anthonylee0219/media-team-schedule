@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#26333B">
+<title>Schedule · Media Team</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#26333B; --bg:#F2F4F5; --surface:#FFFFFF; --ink:#26333B; --muted:#65727A; --line:#DEE3E6;
+  --slides:#B8862E; --slides-bg:#F7EEDC; --sound:#3B7686; --sound-bg:#E1EDF0;
+  --alert:#C0503A; --alert-bg:#FAE5E0; --ok:#3E7D5A;
+  --hero-bg:#26333B; --hero-ink:#FFFFFF; --hero-muted:#AFBCC3;
+  --focus:#3B7686;
+  --font:"Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --logo:url("logo.png");
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme:dark;
+    --bg:#172026; --surface:#212C33; --ink:#E7ECEF; --muted:#9AA8B0; --line:#33414A;
+    --slides:#E2B45E; --slides-bg:#3A2F1B; --sound:#7FBCCB; --sound-bg:#1D3740;
+    --alert:#F08F7B; --alert-bg:#3E2420; --ok:#7CC49B;
+    --hero-bg:#2C3A43; --hero-ink:#FFFFFF; --hero-muted:#AFBCC3; --focus:#7FBCCB;
+  }
+}
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.wrap{max-width:780px;margin:0 auto;padding:20px 20px 72px}
+
+/* Logo mark: the PNG is used as a mask so it takes any color */
+.mark{display:inline-block;background:currentColor;-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat}
+
+/* Header */
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:6px 0 22px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .mark{width:42px;height:42px;color:var(--ink)}
+.brand h1{margin:0;font-size:1.25rem;font-weight:700;line-height:1.1;letter-spacing:-.01em}
+.brand h1 span{display:block;font-size:.8rem;font-weight:400;color:var(--muted);letter-spacing:0}
+.account{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:999px;padding:5px 6px 5px 5px}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:600;font-size:.9rem}
+@media (prefers-color-scheme: dark){.avatar{background:#E7ECEF;color:#172026}}
+.acct-name{font-weight:600}
+.signout{background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:.8rem;font-weight:500;color:var(--muted);cursor:pointer}
+.signout:hover{color:var(--ink);border-color:var(--ink)}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;background:var(--hero-bg);color:var(--hero-ink);border-radius:22px;padding:26px 28px;min-height:150px}
+.hero .mark{position:absolute;right:-40px;bottom:-56px;width:230px;height:230px;color:#fff;opacity:.08}
+.hero .eyebrow{font-size:.85rem;font-weight:500;color:var(--hero-muted);margin:0}
+.hero .big{font-size:clamp(2.2rem,7vw,3.2rem);font-weight:300;line-height:1.1;margin:4px 0 8px;letter-spacing:-.02em}
+.hero .line{font-size:1.05rem;font-weight:500;margin:0;max-width:34ch}
+.hero .line b{font-weight:700}
+.tag{display:inline-block;border-radius:999px;padding:2px 12px;font-size:.85rem;font-weight:600}
+.tag.slides{background:var(--slides);color:#fff}
+.tag.sound{background:var(--sound);color:#fff}
+.hero .actions{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;position:relative}
+.btn-light{background:#fff;color:var(--navy);border:0;border-radius:999px;padding:8px 18px;font-weight:600;cursor:pointer}
+.btn-light:hover{opacity:.92}
+
+/* Covers needed */
+.covers{margin-top:16px;display:grid;gap:10px}
+.cover-card{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--alert-bg);border-radius:14px;padding:12px 16px}
+.cover-card p{margin:0;font-weight:500}
+.cover-card p span{display:block;font-size:.85rem;font-weight:400;color:var(--muted)}
+
+/* Sections */
+section{margin-top:34px}
+h2{font-size:1.15rem;font-weight:600;margin:0}
+.hint{color:var(--muted);margin:2px 0 14px;font-size:.92rem;max-width:60ch}
+.monthbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:34px}
+.monthbar h2{font-size:clamp(1.5rem,4.5vw,2rem);font-weight:600;letter-spacing:-.015em}
+.monthnav{display:flex;gap:6px}
+.round{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center;font-size:1.2rem;line-height:1}
+.round:hover{border-color:var(--ink)}
+.today-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:0 14px;height:40px;font-weight:500;cursor:pointer;font-size:.88rem}
+
+/* Away chips */
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:flex;flex-direction:column;align-items:center;min-width:76px;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:10px 14px;cursor:pointer;transition:border-color .15s,background .15s}
+.chip small{font-size:.72rem;font-weight:500;color:var(--muted)}
+.chip strong{font-size:1.5rem;font-weight:300;line-height:1.2}
+.chip em{font-style:normal;font-size:.72rem;font-weight:600;color:var(--ok)}
+.chip[aria-pressed="true"]{background:var(--alert-bg);border-color:var(--alert)}
+.chip[aria-pressed="true"] em{color:var(--alert)}
+.chip:disabled{opacity:.45;cursor:default}
+.signin-note{background:var(--surface);border:1.5px dashed var(--line);border-radius:16px;padding:18px;color:var(--muted)}
+
+/* Schedule */
+.sched-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.primary{background:var(--navy);color:#fff;border:0;border-radius:999px;padding:10px 20px;font-weight:600;cursor:pointer}
+@media (prefers-color-scheme: dark){.primary{background:#E7ECEF;color:#172026}}
+.primary:hover{opacity:.9}
+.secondary{background:none;border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;font-weight:500;cursor:pointer}
+.empty{background:var(--surface);border-radius:18px;padding:28px;text-align:center;color:var(--muted)}
+.empty .mark{width:48px;height:48px;color:var(--line);margin-bottom:8px}
+.empty p{margin:0 0 14px}
+.days{display:grid;gap:12px}
+.day{display:grid;grid-template-columns:74px 1fr 1fr;gap:10px;background:var(--surface);border-radius:18px;padding:12px}
+.day.past{opacity:.5}
+.day.next{box-shadow:0 0 0 2px var(--ink)}
+.date{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.date small{font-size:.72rem;font-weight:500;color:var(--muted)}
+.date strong{font-size:2.1rem;font-weight:300;line-height:1.05}
+.date .next-label{font-size:.68rem;font-weight:600;color:var(--surface);background:var(--ink);border-radius:999px;padding:1px 8px;margin-top:3px}
+.slot{border-radius:13px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.slot.slides{background:var(--slides-bg)}
+.slot.sound{background:var(--sound-bg)}
+.slot .pos{display:flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600}
+.slot .pos::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.slot.slides .pos{color:var(--slides)}
+.slot.sound .pos{color:var(--sound)}
+.slot .name{font-size:1.05rem;font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.slot .name .you{font-weight:400;font-size:.8rem;color:var(--muted)}
+.slot .open{color:var(--muted);font-weight:400;font-style:italic}
+.slot.mine{box-shadow:inset 0 0 0 2px currentColor}
+.slot.slides.mine{color:var(--slides)}
+.slot.sound.mine{color:var(--sound)}
+.slot.mine .name{color:var(--ink)}
+.slot.cover{box-shadow:inset 0 0 0 2px var(--alert)}
+.note{font-size:.78rem;color:var(--muted)}
+.note.alert{color:var(--alert);font-weight:600}
+.slot .act{margin-top:4px;align-self:flex-start;background:var(--surface);color:var(--ink);border:0;border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:600;cursor:pointer}
+.slot .act:hover{opacity:.85}
+
+.banner{background:var(--slides-bg);border-radius:14px;padding:12px 16px;margin-bottom:16px;font-size:.9rem}
+footer{margin-top:44px;display:flex;justify-content:center;color:var(--muted)}
+footer .mark{width:22px;height:22px;opacity:.5}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,10px);background:var(--navy);color:#fff;padding:10px 20px;border-radius:999px;font-weight:500;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast.err{background:var(--alert)}
+
+@media (max-width:600px){
+  .wrap{padding:14px 14px 64px}
+  .hero{padding:22px}
+  .day{grid-template-columns:1fr 1fr}
+  .date{grid-column:1/-1;flex-direction:row;justify-content:flex-start;gap:8px;align-items:baseline}
+  .date strong{font-size:1.5rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="banner"></div>
+  <header>
+    <div class="brand">
+      <span class="mark" aria-hidden="true"></span>
+      <h1>Media Team<span>Sunday slides &amp; sound</span></h1>
+    </div>
+    <div class="account" id="account" hidden>
+      <span class="avatar" id="avatar"></span>
+      <span class="acct-name" id="acctName"></span>
+      <button class="signout" id="signout">Sign out</button>
+    </div>
+  </header>
+
+  <div class="hero" id="hero" aria-live="polite"></div>
+  <div class="covers" id="covers"></div>
+
+  <div class="monthbar">
+    <h2 id="monthLabel"></h2>
+    <div class="monthnav">
+      <button class="today-btn" id="thisMonth">This month</button>
+      <button class="round" id="prev" aria-label="Previous month">‹</button>
+      <button class="round" id="next" aria-label="Next month">›</button>
+    </div>
+  </div>
+
+  <section style="margin-top:20px">
+    <h2>Sundays you’ll be away</h2>
+    <p class="hint" id="awayHint"></p>
+    <div class="chips" id="chips"></div>
+  </section>
+
+  <section>
+    <div class="sched-head">
+      <div>
+        <h2>Schedule</h2>
+        <p class="hint" style="margin-bottom:0">Two people each Sunday, one on slides and one on sound.</p>
+      </div>
+      <button class="secondary" id="generate" hidden>Remake schedule</button>
+    </div>
+    <div id="schedule"><div class="empty"><span class="mark" aria-hidden="true"></span><p>Loading the schedule…</p></div></div>
+  </section>
+
+
+  <footer><span class="mark" aria-hidden="true"></span></footer>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script type="module">
+/* ============================================================
+   1. FIREBASE SETUP
+   Paste your Firebase web config here (see setup steps).
+   Until you do, the app runs in demo mode and only saves
+   data in this one browser.
+   ============================================================ */
+const firebaseConfig = {
+  apiKey: "AIzaSyCJmxNcySq3bNaizMXQm-2XpQ8tdyM6qZM",
+  authDomain: "media-team-schedule.firebaseapp.com",
+  projectId: "media-team-schedule",
+  storageBucket: "media-team-schedule.firebasestorage.app",
+  messagingSenderId: "34767744283",
+  appId: "1:34767744283:web:3e5d0271f7b15c79e137be"
+};
+
+/* 2. TEAM — edit names here */
+const PEOPLE = ["Tony", "Sarah", "Billy", "James", "Airi"];
+const POSITIONS = [{ key: "slides", label: "Slides" }, { key: "sound", label: "Sound" }];
+
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2, "0");
+
+/* ---------- Dates ---------- */
+const monthKeyOf = (y, m) => `${y}-${pad(m + 1)}`;
+function sundaysOf(key) {
+  const [y, m] = key.split("-").map(Number);
+  const d = new Date(y, m - 1, 1);
+  while (d.getDay() !== 0) d.setDate(d.getDate() + 1);
+  const out = [];
+  while (d.getMonth() === m - 1) {
+    out.push(`${y}-${pad(m)}-${pad(d.getDate())}`);
+    d.setDate(d.getDate() + 7);
+  }
+  return out;
+}
+function shiftMonth(key, delta) {
+  const [y, m] = key.split("-").map(Number);
+  const d = new Date(y, m - 1 + delta, 1);
+  return monthKeyOf(d.getFullYear(), d.getMonth());
+}
+const toDate = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+const fmtMonth = key => toDate(key + "-01").toLocaleDateString(undefined, { month: "long", year: "numeric" });
+const fmtShort = s => toDate(s).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+
+/* ---------- Scheduling ---------- */
+function tally(all, excludeKey) {
+  const t = Object.fromEntries(PEOPLE.map(p => [p, { slides: 0, sound: 0, total: 0 }]));
+  for (const [k, mo] of Object.entries(all)) {
+    if (k === excludeKey) continue;
+    for (const day of Object.values(mo.schedule || {})) {
+      for (const { key } of POSITIONS) {
+        const who = day?.[key]?.person;
+        if (who && t[who]) { t[who][key]++; t[who].total++; }
+      }
+    }
+  }
+  return t;
+}
+
+function buildSchedule(sundays, absences, history) {
+  const c = structuredClone(history);
+  const month = Object.fromEntries(PEOPLE.map(p => [p, 0]));
+  const away = (p, d) => (absences?.[p] || []).includes(d);
+  const avail = d => PEOPLE.filter(p => !away(p, d));
+
+  // Fill the hardest Sundays (fewest people available) first
+  const order = sundays
+    .map(d => ({ d, n: avail(d).length, r: Math.random() }))
+    .sort((a, b) => a.n - b.n || a.r - b.r)
+    .map(x => x.d);
+
+  const out = {};
+  for (const d of order) {
+    // Fewest shifts this month first, then fewest all-time, then random
+    const pool = avail(d)
+      .map(p => ({ p, r: Math.random() }))
+      .sort((a, b) => month[a.p] - month[b.p] || c[a.p].total - c[b.p].total || a.r - b.r)
+      .map(x => x.p);
+    const [a, b] = pool;
+    let slides = null, sound = null;
+    if (a && b) {
+      // Pick the position split that best evens out each person's slides/sound mix
+      const cost = (s, o) => Math.abs(c[s].slides + 1 - c[s].sound) + Math.abs(c[o].sound + 1 - c[o].slides);
+      const c1 = cost(a, b), c2 = cost(b, a);
+      if (c1 < c2 || (c1 === c2 && Math.random() < 0.5)) { slides = a; sound = b; }
+      else { slides = b; sound = a; }
+    } else if (a) {
+      if (c[a].slides <= c[a].sound) slides = a; else sound = a;
+    }
+    const slot = p => ({ person: p, coverRequested: false, coveredFor: null });
+    out[d] = { slides: slot(slides), sound: slot(sound) };
+    for (const [pos, p] of [["slides", slides], ["sound", sound]]) {
+      if (p) { c[p][pos]++; c[p].total++; month[p]++; }
+    }
+  }
+  return out;
+}
+
+// Try many randomized schedules and keep the fairest one
+function bestSchedule(sundays, absences, history) {
+  let best = null, bestScore = Infinity;
+  for (let i = 0; i < 400; i++) {
+    const sched = buildSchedule(sundays, absences, history);
+    const t = structuredClone(history);
+    const m = Object.fromEntries(PEOPLE.map(p => [p, 0]));
+    let open = 0;
+    for (const day of Object.values(sched)) for (const { key } of POSITIONS) {
+      const p = day[key].person;
+      if (!p) { open++; continue; }
+      t[p][key]++; t[p].total++; m[p]++;
+    }
+    const spread = o => Math.max(...Object.values(o)) - Math.min(...Object.values(o));
+    const totals = Object.fromEntries(PEOPLE.map(p => [p, t[p].total]));
+    const mix = PEOPLE.reduce((s, p) => s + (t[p].slides - t[p].sound) ** 2, 0);
+    const score = open * 1000 + spread(m) * 100 + spread(totals) * 10 + mix;
+    if (score < bestScore) { bestScore = score; best = sched; }
+  }
+  return best;
+}
+
+
+/* ---------- Firebase (sign-in required) ---------- */
+const FB = "https://www.gstatic.com/firebasejs/10.12.2/";
+const { initializeApp } = await import(FB + "firebase-app.js");
+const authMod = await import(FB + "firebase-auth.js");
+const fs = await import(FB + "firebase-firestore.js");
+const fbApp = initializeApp(firebaseConfig);
+const auth = authMod.getAuth(fbApp);
+const db = fs.getFirestore(fbApp);
+
+const store = {
+  subscribe(cb) {
+    fs.onSnapshot(fs.collection(db, "months"),
+      snap => { const all = {}; snap.forEach(d => { all[d.id] = d.data(); }); cb(all); },
+      err => toast("Couldn’t load the schedule: " + err.message, true));
+  },
+  async update(monthKey, paths) {
+    const ref = fs.doc(db, "months", monthKey);
+    try { await fs.updateDoc(ref, paths); }
+    catch (e) {
+      if (e.code !== "not-found") throw e;
+      await fs.setDoc(ref, {}, { merge: true });
+      await fs.updateDoc(ref, paths);
+    }
+  }
+};
+/* ---------- State & rendering ---------- */
+let all = {};
+let loaded = false;
+let user = "";
+const now = new Date();
+const thisMonthKey = monthKeyOf(now.getFullYear(), now.getMonth());
+let monthKey = thisMonthKey;
+
+const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+const monthOfDate = d => d.slice(0, 7);
+const current = () => all[monthKey] || {};
+const awayList = (p, mo = current()) => mo.absences?.[p] || [];
+const slotOf = (date, pos) => all[monthOfDate(date)]?.schedule?.[date]?.[pos];
+const weekday = s => toDate(s).toLocaleDateString(undefined, { weekday: "short" });
+const monthShort = s => toDate(s).toLocaleDateString(undefined, { month: "short" });
+const posLabel = k => POSITIONS.find(p => p.key === k).label;
+
+function nextSunday() {
+  const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  while (d.getDay() !== 0) d.setDate(d.getDate() + 1);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function canCover(date, pos) {
+  if (!user) return false;
+  const day = all[monthOfDate(date)]?.schedule?.[date] || {};
+  const other = POSITIONS.find(p => p.key !== pos).key;
+  const slot = day[pos];
+  return slot?.person !== user && day[other]?.person !== user &&
+    !awayList(user, all[monthOfDate(date)] || {}).includes(date);
+}
+
+function renderHero() {
+  const el = $("hero");
+  const logo = `<span class="mark" aria-hidden="true"></span>`;
+  if (!user) {
+    el.innerHTML = `${logo}<p class="eyebrow">Welcome</p><p class="big">Loading…</p><p class="line">Getting your Sundays.</p>`;
+    return;
+  }
+  // Find this person's next shift from today on
+  const upcoming = [];
+  for (const mo of Object.values(all)) {
+    for (const [date, day] of Object.entries(mo.schedule || {})) {
+      if (date < todayStr) continue;
+      for (const { key } of POSITIONS) if (day?.[key]?.person === user) upcoming.push({ date, key, day });
+    }
+  }
+  upcoming.sort((a, b) => a.date.localeCompare(b.date));
+  const ns = nextSunday();
+  if (!upcoming.length) {
+    const scheduled = !!all[monthOfDate(ns)]?.schedule;
+    el.innerHTML = `${logo}<p class="eyebrow">Hi ${user}</p><p class="big">No shifts yet</p><p class="line">${scheduled ? "You’re not on any upcoming Sundays." : "This month’s schedule hasn’t been made yet."}</p>`;
+    return;
+  }
+  const { date, key, day } = upcoming[0];
+  const partnerKey = POSITIONS.find(p => p.key !== key).key;
+  const partner = day[partnerKey]?.person;
+  const isNext = date === ns;
+  const slot = day[key];
+  const label = isNext ? "This Sunday" : "Your next Sunday";
+  let actions = slot.coverRequested
+    ? `<button class="btn-light" data-action="cancel" data-date="${date}" data-pos="${key}">Cancel cover request</button>`
+    : `<button class="btn-light" data-action="request" data-date="${date}" data-pos="${key}">Request a cover</button>`;
+  el.innerHTML = `${logo}
+    <p class="eyebrow">${label}</p>
+    <p class="big">${toDate(date).toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}</p>
+    <p class="line">You’re on <span class="tag ${key}">${posLabel(key)}</span>${partner ? ` with <b>${partner}</b>` : ""}.${slot.coverRequested ? " A cover has been requested." : ""}${upcoming.length > 1 ? ` ${upcoming.length - 1} more coming up.` : ""}</p>
+    <div class="actions">${actions}</div>`;
+}
+
+function renderCovers() {
+  const items = [];
+  for (const mo of Object.values(all)) {
+    for (const [date, day] of Object.entries(mo.schedule || {})) {
+      if (date < todayStr) continue;
+      for (const { key } of POSITIONS) {
+        const s = day?.[key];
+        if (s?.coverRequested && s.person !== user) items.push({ date, key, person: s.person });
+        if (s && !s.person) items.push({ date, key, person: null });
+      }
+    }
+  }
+  items.sort((a, b) => a.date.localeCompare(b.date));
+  $("covers").innerHTML = items.map(({ date, key, person }) => {
+    const btn = canCover(date, key)
+      ? `<button class="primary" data-action="take" data-date="${date}" data-pos="${key}">${person ? "Cover it" : "Take it"}</button>` : "";
+    const what = person ? `${person} needs a cover` : "Open shift";
+    return `<div class="cover-card"><p>${what} · ${posLabel(key)}<span>${toDate(date).toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}</span></p>${btn}</div>`;
+  }).join("");
+}
+
+function render() {
+  $("monthLabel").textContent = fmtMonth(monthKey);
+  $("thisMonth").hidden = monthKey === thisMonthKey;
+  const sundays = sundaysOf(monthKey);
+  const mo = current();
+  const ns = nextSunday();
+
+  renderHero();
+  renderCovers();
+
+  // Away chips
+  if (!user) {
+    $("awayHint").textContent = "";
+    $("chips").innerHTML = `<div class="signin-note">Loading…</div>`;
+  } else {
+    $("awayHint").textContent = "Tap a Sunday you can’t make it. It saves right away.";
+    const mine = awayList(user);
+    $("chips").innerHTML = sundays.map(d => {
+      const away = mine.includes(d);
+      return `<button class="chip" data-action="away" data-date="${d}" aria-pressed="${away}" ${d < todayStr ? "disabled" : ""}
+        aria-label="${toDate(d).toLocaleDateString(undefined, { month: "long", day: "numeric" })}: ${away ? "away" : "available"}">
+        <small>${monthShort(d)}</small><strong>${toDate(d).getDate()}</strong><em>${away ? "Away" : "Available"}</em></button>`;
+    }).join("");
+  }
+
+  // Schedule
+  const sched = mo.schedule;
+  $("generate").hidden = !sched;
+  if (!loaded) {
+    // keep loading state
+  } else if (!sched) {
+    const who = PEOPLE.filter(p => mo.absences?.[p]).length;
+    const waiting = PEOPLE.filter(p => !mo.absences?.[p]);
+    $("schedule").innerHTML = `<div class="empty"><span class="mark" aria-hidden="true"></span>
+      <p><b>No schedule for ${fmtMonth(monthKey)} yet.</b><br>${who} of ${PEOPLE.length} have marked their Sundays away${waiting.length && waiting.length < PEOPLE.length ? ` (still waiting on ${waiting.join(", ")})` : ""}.</p>
+      <button class="primary" data-action="generate">Create schedule</button></div>`;
+  } else {
+    $("schedule").innerHTML = `<div class="days">` + sundays.map(d => {
+      const day = sched[d] || {};
+      const cls = ["day", d < todayStr ? "past" : "", d === ns ? "next" : ""].join(" ");
+      return `<div class="${cls}">
+        <div class="date"><small>${weekday(d)} · ${monthShort(d)}</small><strong>${toDate(d).getDate()}</strong>${d === ns ? `<span class="next-label">Next up</span>` : ""}</div>
+        ${POSITIONS.map(({ key, label }) => slotHTML(d, key, label, day[key])).join("")}
+      </div>`;
+    }).join("") + `</div>`;
+  }
+}
+
+function slotHTML(date, pos, label, slot) {
+  const person = slot?.person || null;
+  const isMine = person && person === user;
+  const past = date < todayStr;
+  const cls = ["slot", pos, isMine ? "mine" : "", slot?.coverRequested ? "cover" : ""].join(" ");
+  let notes = "", action = "";
+  if (!person) {
+    notes = `<span class="note alert">No one available</span>`;
+    if (!past && canCover(date, pos)) action = `<button class="act" data-action="take" data-date="${date}" data-pos="${pos}">Take this shift</button>`;
+  } else {
+    if (slot.coveredFor) notes += `<span class="note">Covering for ${slot.coveredFor}</span>`;
+    if (awayList(person).includes(date)) notes += `<span class="note alert">Marked away</span>`;
+    if (slot.coverRequested) notes += `<span class="note alert">Needs a cover</span>`;
+    if (!past) {
+      if (isMine && !slot.coverRequested) action = `<button class="act" data-action="request" data-date="${date}" data-pos="${pos}">Request cover</button>`;
+      if (isMine && slot.coverRequested) action = `<button class="act" data-action="cancel" data-date="${date}" data-pos="${pos}">Cancel request</button>`;
+      if (slot.coverRequested && canCover(date, pos)) action = `<button class="act" data-action="take" data-date="${date}" data-pos="${pos}">Cover this</button>`;
+    }
+  }
+  return `<div class="${cls}">
+    <span class="pos">${label}</span>
+    <span class="name">${person ? `${person}${isMine ? ` <span class="you">(you)</span>` : ""}` : `<span class="open">Open</span>`}</span>
+    ${notes}${action}
+  </div>`;
+}
+
+/* ---------- Actions ---------- */
+let toastTimer;
+function toast(msg, err = false) {
+  const el = $("toast");
+  el.textContent = msg;
+  el.className = "show" + (err ? " err" : "");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.className = "", 2800);
+}
+
+async function save(mKey, paths, okMsg) {
+  try { await store.update(mKey, paths); if (okMsg) toast(okMsg); }
+  catch (e) { toast("Didn’t save: " + e.message, true); }
+}
+
+async function generate() {
+  const mo = current();
+  if (mo.schedule && !confirm(`Remake the ${fmtMonth(monthKey)} schedule? Covers already arranged will be replaced.`)) return;
+  const sched = bestSchedule(sundaysOf(monthKey), mo.absences || {}, tally(all, monthKey));
+  await save(monthKey, { schedule: sched, generatedAt: new Date().toISOString() }, "Schedule created");
+}
+
+document.addEventListener("click", async e => {
+  const btn = e.target.closest("[data-action]");
+  if (!btn) return;
+  const { action, date, pos } = btn.dataset;
+  if (action === "generate") return generate();
+  const mKey = monthOfDate(date);
+  const slot = slotOf(date, pos);
+
+  if (action === "away") {
+    const list = new Set(awayList(user, all[mKey] || {}));
+    list.has(date) ? list.delete(date) : list.add(date);
+    await save(mKey, { [`absences.${user}`]: [...list].sort() }, list.has(date) ? `Marked away ${fmtShort(date)}` : `Available ${fmtShort(date)}`);
+    const assigned = POSITIONS.some(p => slotOf(date, p.key)?.person === user);
+    if (list.has(date) && assigned) setTimeout(() => toast(`You’re scheduled ${fmtShort(date)}. Tap “Request cover” on that Sunday.`), 1200);
+  }
+  if (action === "request") await save(mKey, { [`schedule.${date}.${pos}.coverRequested`]: true }, "Cover requested");
+  if (action === "cancel") await save(mKey, { [`schedule.${date}.${pos}.coverRequested`]: false }, "Request cancelled");
+  if (action === "take") {
+    const from = slot?.person;
+    if (!confirm(from ? `Cover ${from} on ${posLabel(pos)}, ${fmtShort(date)}?` : `Take ${posLabel(pos)} on ${fmtShort(date)}?`)) return;
+    await save(mKey, { [`schedule.${date}.${pos}`]: { person: user, coverRequested: false, coveredFor: from || null } }, "You’re on the schedule");
+  }
+});
+
+$("generate").addEventListener("click", generate);
+$("prev").addEventListener("click", () => { monthKey = shiftMonth(monthKey, -1); render(); });
+$("next").addEventListener("click", () => { monthKey = shiftMonth(monthKey, 1); render(); });
+$("thisMonth").addEventListener("click", () => { monthKey = thisMonthKey; render(); });
+
+/* ---------- Start ---------- */
+render();
+$("signout").addEventListener("click", async () => {
+  await authMod.signOut(auth);
+  location.replace("./");
+});
+authMod.onAuthStateChanged(auth, async u => {
+  if (!u) { location.replace("./"); return; }
+  let member;
+  try { member = await fs.getDoc(fs.doc(db, "members", u.uid)); }
+  catch (e) { toast("Couldn’t check your account: " + e.message, true); return; }
+  if (!member.exists()) { location.replace("./"); return; }
+  user = member.data().name;
+  $("acctName").textContent = user;
+  $("avatar").textContent = user[0];
+  $("account").hidden = false;
+  store.subscribe(data => { all = data; loaded = true; render(); });
+});
+</script>
+</body>
+</html>
