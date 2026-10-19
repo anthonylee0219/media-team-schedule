@@ -1,0 +1,48 @@
+name: Auto-create monthly schedule
+
+on:
+  schedule:
+    # Every day at 10:00 UTC (6 AM Eastern in summer, 5 AM in winter).
+    # The script only acts 3 days before a month's first Sunday.
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only show what would be created"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install
+        working-directory: scripts
+        run: npm install --no-audit --no-fund
+
+      - name: Create schedule if due
+        run: node scripts/auto-schedule.mjs
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          TIMEZONE: America/New_York
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+
+      # GitHub pauses scheduled jobs in public repos after 60 days without
+      # activity. Re-enabling it on every run keeps it switched on.
+      - name: Keep this job switched on
+        if: always()
+        continue-on-error: true
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/auto-schedule.yml/enable"
+        env:
+          GH_TOKEN: ${{ github.token }}
