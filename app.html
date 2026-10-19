@@ -349,6 +349,48 @@ const store = {
 // Only this account can create or remake a month's schedule
 const ADMIN_EMAIL = "lee.anthony0219@gmail.com";
 let isAdmin = false;
+
+/* ---------- Automatic monthly schedule ----------
+   Each month's schedule is created automatically 3 days before its
+   first Sunday (a Thursday). The free Firebase plan has no timer, so
+   the first team member to open the page on or after that day
+   triggers it; a transaction makes sure it only happens once. */
+const LEAD_DAYS = 3;
+function autoDate(mKey) {
+  const d = toDate(sundaysOf(mKey)[0]);
+  d.setDate(d.getDate() - LEAD_DAYS);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+const autoLabel = mKey => toDate(autoDate(mKey)).toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+
+let autoRunning = false;
+async function autoCreate() {
+  if (autoRunning) return;
+  autoRunning = true;
+  try {
+    for (const mKey of [thisMonthKey, shiftMonth(thisMonthKey, 1)]) {
+      if (all[mKey]?.schedule || todayStr < autoDate(mKey)) continue;
+      const sundays = sundaysOf(mKey).filter(d => d >= todayStr);
+      if (!sundays.length) continue;
+      const ref = fs.doc(db, "months", mKey);
+      const made = await fs.runTransaction(db, async tx => {
+        const snap = await tx.get(ref);
+        const data = snap.exists() ? snap.data() : {};
+        if (data.schedule) return false; // someone already made it
+        const sched = bestSchedule(sundays, data.absences || {}, tally(all, mKey));
+        const fields = { schedule: sched, generatedAt: new Date().toISOString(), autoCreated: true };
+        if (snap.exists()) tx.update(ref, fields); else tx.set(ref, fields);
+        return true;
+      });
+      if (made) toast(`${fmtMonth(mKey)} schedule is ready`);
+    }
+  } catch (e) {
+    console.error(e);
+    toast("Couldn’t create the schedule automatically: " + e.message, true);
+  } finally {
+    autoRunning = false;
+  }
+}
 let all = {};
 let loaded = false;
 let user = "";
@@ -474,7 +516,8 @@ function render() {
     const waiting = PEOPLE.filter(p => !mo.absences?.[p]);
     $("schedule").innerHTML = `<div class="empty"><span class="mark" aria-hidden="true"></span>
       <p><b>No schedule for ${fmtMonth(monthKey)} yet.</b><br>${who} of ${PEOPLE.length} have marked their Sundays away${waiting.length && waiting.length < PEOPLE.length ? ` (still waiting on ${waiting.join(", ")})` : ""}.</p>
-      ${isAdmin ? `<button class="primary" data-action="generate">Create schedule</button>` : `<p style="margin:0">Tony will create it once everyone has marked their Sundays.</p>`}</div>`;
+      ${monthKey < thisMonthKey ? "" : `<p style="margin:0 0 14px">It’s created automatically on <b>${autoLabel(monthKey)}</b>. Mark your Sundays away before then.</p>`}
+      ${isAdmin ? `<button class="secondary" data-action="generate">Create it now</button>` : ""}</div>`;
   } else {
     $("schedule").innerHTML = `<div class="days">` + sundays.map(d => {
       const day = sched[d] || {};
@@ -533,7 +576,7 @@ async function generate() {
   const mo = current();
   if (mo.schedule && !confirm(`Remake the ${fmtMonth(monthKey)} schedule? Covers already arranged will be replaced.`)) return;
   const sched = bestSchedule(sundaysOf(monthKey), mo.absences || {}, tally(all, monthKey));
-  await save(monthKey, { schedule: sched, generatedAt: new Date().toISOString() }, "Schedule created");
+  await save(monthKey, { schedule: sched, generatedAt: new Date().toISOString(), autoCreated: false }, mo.schedule ? "Schedule remade" : "Schedule created");
 }
 
 document.addEventListener("click", async e => {
@@ -582,7 +625,7 @@ authMod.onAuthStateChanged(auth, async u => {
   $("acctName").textContent = user;
   $("avatar").textContent = user[0];
   $("account").hidden = false;
-  store.subscribe(data => { all = data; loaded = true; render(); });
+  store.subscribe(data => { all = data; loaded = true; render(); autoCreate(); });
 });
 </script>
 </body>
