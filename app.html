@@ -346,6 +346,9 @@ const store = {
   }
 };
 /* ---------- State & rendering ---------- */
+// Only this account can create or remake a month's schedule
+const ADMIN_EMAIL = "lee.anthony0219@gmail.com";
+let isAdmin = false;
 let all = {};
 let loaded = false;
 let user = "";
@@ -463,7 +466,7 @@ function render() {
 
   // Schedule
   const sched = mo.schedule;
-  $("generate").hidden = !sched;
+  $("generate").hidden = !sched || !isAdmin;
   if (!loaded) {
     // keep loading state
   } else if (!sched) {
@@ -471,7 +474,7 @@ function render() {
     const waiting = PEOPLE.filter(p => !mo.absences?.[p]);
     $("schedule").innerHTML = `<div class="empty"><span class="mark" aria-hidden="true"></span>
       <p><b>No schedule for ${fmtMonth(monthKey)} yet.</b><br>${who} of ${PEOPLE.length} have marked their Sundays away${waiting.length && waiting.length < PEOPLE.length ? ` (still waiting on ${waiting.join(", ")})` : ""}.</p>
-      <button class="primary" data-action="generate">Create schedule</button></div>`;
+      ${isAdmin ? `<button class="primary" data-action="generate">Create schedule</button>` : `<p style="margin:0">Tony will create it once everyone has marked their Sundays.</p>`}</div>`;
   } else {
     $("schedule").innerHTML = `<div class="days">` + sundays.map(d => {
       const day = sched[d] || {};
@@ -526,6 +529,7 @@ async function save(mKey, paths, okMsg) {
 }
 
 async function generate() {
+  if (!isAdmin) return;
   const mo = current();
   if (mo.schedule && !confirm(`Remake the ${fmtMonth(monthKey)} schedule? Covers already arranged will be replaced.`)) return;
   const sched = bestSchedule(sundaysOf(monthKey), mo.absences || {}, tally(all, monthKey));
@@ -574,6 +578,7 @@ authMod.onAuthStateChanged(auth, async u => {
   catch (e) { toast("Couldn’t check your account: " + e.message, true); return; }
   if (!member.exists()) { location.replace("./"); return; }
   user = member.data().name;
+  isAdmin = !!u.email && u.email.toLowerCase() === ADMIN_EMAIL;
   $("acctName").textContent = user;
   $("avatar").textContent = user[0];
   $("account").hidden = false;
